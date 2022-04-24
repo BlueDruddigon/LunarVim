@@ -8,6 +8,9 @@ an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
+vim.cmd [[ let &fcs='eob: ' ]]
+vim.cmd [[ set relativenumber ]]
+
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
@@ -51,12 +54,24 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
 --   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
 -- }
+lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+lvim.builtin.which_key.mappings["sm"] = { "<cmd>:Telescope media_files<CR>", "Media Files" }
+lvim.builtin.which_key.mappings["t"] = {
+  name = "+Trouble",
+  r = { "<cmd>Trouble lsp_references<CR>", "Trouble References" },
+  f = { "<cmd>Trouble lsp_definitions<CR>", "Trouble LSP Definitions" },
+  d = { "<cmd>Trouble document_diagnostics<CR>", "Trouble Document Diagnostics" },
+  q = { "<cmd>Trouble quickfix<CR>", "Trouble QuickFix" },
+  l = { "<cmd>Trouble loclist<CR>", "Trouble LocationList" },
+  w = { "<cmd>Trouble workspace_diagnostics<CR>", "Trouble Workspace Diagnostics" },
+  t = { "<cmd>TroubleToggle<CR>", "TroubleToggle" },
+}
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.alpha.active = true
+lvim.builtin.alpha.active = false
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
+lvim.builtin.notify.active = false
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
@@ -79,6 +94,7 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.indent.enable = false
 
 -- generic LSP settings
 
@@ -90,6 +106,27 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
 -- require("lvim.lsp.manager").setup("pyright", opts)
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
+
+local root_files = {
+  "pyproject.toml",
+  "setup.py",
+  "setup.cfg",
+  "requirements.txt",
+  "Pipfile",
+  "pyrightconfig.json",
+  ".git",
+  ".gitignore",
+}
+
+local opts = {
+  cmd = { "/home/beo/.local/share/nvim/lsp_servers/python/node_modules/.bin/pyright-langserver", "--stdio" },
+  filetypes = { "python" },
+  root_dir = require("lspconfig.util").root_pattern(unpack(root_files)),
+  single_file_support = true,
+}
+
+require("lspconfig")["pyright"].setup(opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
@@ -106,6 +143,14 @@ lvim.builtin.treesitter.highlight.enabled = true
 --   --Enable completion triggered by <c-x><c-o>
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
+lvim.lsp.on_attach_callback = function(_, bufnr)
+  local function buf_set_option(...)
+    vim.api.nvim_buf_set_option(bufnr, ...)
+  end
+
+  --Enable completion triggered by <c-x><c-o>
+  buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+end
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 -- local formatters = require "lvim.lsp.null-ls.formatters"
@@ -122,6 +167,10 @@ lvim.builtin.treesitter.highlight.enabled = true
 --     filetypes = { "typescript", "typescriptreact" },
 --   },
 -- }
+local formatters = require("lvim.lsp.null-ls.formatters")
+formatters.setup({
+  { command = "yapf", filetypes = { "python" }, extra_args = { "--style", "$HOME/.config/yapf/style" } },
+})
 
 -- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"
@@ -142,15 +191,165 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- }
 
 -- Additional Plugins
--- lvim.plugins = {
---     {"folke/tokyonight.nvim"},
---     {
---       "folke/trouble.nvim",
---       cmd = "TroubleToggle",
---     },
--- }
+lvim.plugins = {
+  {
+    "github/copilot.vim",
+    config = function()
+      -- maps for github copilot
+      vim.api.nvim_set_keymap("n", "<A-[>", "copilot#Accept('<CR>')", { noremap = true, expr = true, silent = true })
+      vim.api.nvim_set_keymap("i", "<A-[>", "copilot#Accept('<CR>')", { noremap = true, expr = true, silent = true })
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+      vim.g.copilot_tab_fallback = ""
+      vim.g.copilot_filetypes = {
+        ['*'] = false,
+        ['python'] = true,
+      }
+    end,
+  },
+  {
+    "windwp/nvim-spectre",
+    event = "BufRead",
+    config = function()
+      require("spectre").setup()
+    end,
+  },
+  {
+    "andymass/vim-matchup",
+    event = "CursorMoved",
+    config = function()
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    event = "BufWinEnter",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  },
+  {
+    "p00f/nvim-ts-rainbow",
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        highlight = {
+        },
+        rainbow = {
+          enable = true,
+          extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+          max_file_lines = nil, -- Do not enable for files with more than n lines, int
+        }
+      })
+    end
+  },
+  -- {
+  --   "tzachar/cmp-tabnine",
+  --   run = "./install.sh",
+  --   requres = "hrsh7th/nvim-cmp",
+  -- },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    event = "BufRead",
+    config = function()
+      require("indent_blankline").setup({
+        char = "▏",
+        space_char_blankline = " ",
+        indent_blankline_filetype_exclude = { "help", "terminal", "dashboard" },
+        indent_blankline_buftype_exclude = { "terminal" },
+        show_trailing_blankline_indent = false,
+      })
+    end
+  },
+  {
+    "itchyny/vim-cursorword",
+    event = { "BufEnter", "BufNewFile" },
+    config = function()
+      vim.api.nvim_command("augroup user_plugin_cursorword")
+      vim.api.nvim_command("autocmd!")
+      vim.api.nvim_command("autocmd FileType NvimTree,lspsagafinder,dashboard,vista let b:cursorword = 0")
+      vim.api.nvim_command("autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif")
+      vim.api.nvim_command("autocmd InsertEnter * let b:cursorword = 0")
+      vim.api.nvim_command("autocmd InsertLeave * let b:cursorword = 1")
+      vim.api.nvim_command("augroup END")
+    end
+  },
+  {
+    "nvim-telescope/telescope-media-files.nvim",
+    event = "BufWinEnter",
+    config = function()
+      require("telescope").load_extension("media_files")
+    end,
+  },
+  {
+    "nacro90/numb.nvim",
+    event = "BufRead",
+    config = function()
+      require("numb").setup {
+        show_numbers = true, -- Enable 'number' for the window while peeking
+        show_cursorline = true, -- Enable 'cursorline' for the window while peeking
+      }
+    end,
+  },
+  {
+    "norcalli/nvim-colorizer.lua",
+    event = "BufRead",
+    config = function()
+      require("colorizer").setup({ "*" }, {
+        RGB = true, -- #RGB hex codes
+        RRGGBB = true, -- #RRGGBB hex codes
+        RRGGBBAA = true, -- #RRGGBBAA hex codes
+        rgb_fn = true, -- CSS rgb() and rgba() functions
+        hsl_fn = true, -- CSS hsl() and hsla() functions
+        css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+      })
+    end,
+  },
+  {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup({
+        auto_close = true,
+        auto_open = false,
+        auto_preview = false,
+        use_diagnostic_signs = true,
+        mode = "document_diagnostics",
+        action_keys = {
+          jump_close = { "<CR>", "o", "<TAB>" },
+          jump = {},
+        },
+      })
+    end,
+  },
+  {
+    "ekickx/clipboard-image.nvim",
+    config = function()
+      require("clipboard-image").setup({})
+    end
+  },
+  {
+    "ellisonleao/glow.nvim",
+    config = function()
+      vim.g.glow_border = "rounded"
+      vim.g.glow_use_pager = true
+    end
+  },
+}
+
+-- key mappings for commenters
+local expr = { noremap = true, silent = true, expr = true }
+local map_opt = { noremap = true, silent = true }
+vim.api.nvim_set_keymap("n", ",,", [[v:count == 0 ? '<CMD>lua require("Comment.api").call("toggle_current_linewise_op")<CR>g@$' : '<CMD>lua require("Comment.api").locked.toggle_linewise_count()<CR>']], expr)
+vim.api.nvim_set_keymap("x", ",,", '<ESC><CMD>lua require("Comment.api").locked.toggle_linewise_op(vim.fn.visualmode())<CR>', map_opt)
+vim.api.nvim_set_keymap("n", "ge", "<cmd>TroubleToggle<CR>", map_opt)
+vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k", map_opt)
+vim.api.nvim_set_keymap("i", "<C-k>", "<C-w>k", map_opt)
+vim.api.nvim_set_keymap("x", "<C-k>", "<C-w>k", map_opt)
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
 --   { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
+--   { "BufWritePost", "*.py", "lua require('lint').try_lint()" },
+--   { "Filetype", "python", "lua require('cmp').setup.buffer({ completion = { autocomplete = false } })" },
 -- }

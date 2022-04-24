@@ -1,25 +1,5 @@
 ![lunarvim_logo_dark](https://user-images.githubusercontent.com/59826753/159940098-54284f26-f1da-4481-8b03-1deb34c57533.png)
 
-<div align="center"><p>
-    <a href="https://github.com/lunarvim/LunarVim/releases/latest">
-      <img alt="Latest release" src="https://img.shields.io/github/v/release/lunarvim/LunarVim" />
-    </a>
-    <a href="https://github.com/lunarvim/LunarVim/pulse">
-      <img alt="Last commit" src="https://img.shields.io/github/last-commit/lunarvim/LunarVim"/>
-    </a>
-    <a href="https://github.com/lunarvim/LunarVim/blob/main/LICENSE">
-      <img src="https://img.shields.io/github/license/lunarvim/lunarvim?style=flat-square&logo=GNU&label=License" alt="License"
-    />
-    <a href="https://patreon.com/chrisatmachine" title="Donate to this project using Patreon">
-      <img src="https://img.shields.io/badge/patreon-donate-yellow.svg" alt="Patreon donate button" />
-    </a>
-    <a href="https://twitter.com/intent/follow?screen_name=chrisatmachine">
-      <img src="https://img.shields.io/twitter/follow/chrisatmachine?style=social&logo=twitter" alt="follow on Twitter">
-    </a>
-</p>
-
-</div>
-
 ## Showcase
 ![intro1](https://user-images.githubusercontent.com/59826753/159939936-3a9a8e94-05ea-48fa-8c46-69378276451b.png)
 ![info](https://user-images.githubusercontent.com/59826753/159939984-ac0190d7-a3fb-46c0-95ca-a6fec626bbac.png)
@@ -34,7 +14,7 @@ Make sure you have the release version of Neovim (0.6.1+).
 ### Linux:
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/BlueDruddigon/LunarVim/rolling/utils/installer/install.sh)
 ```
 
 To run the install script without any interaction you can pass the `-y` flag to automatically install all dependencies and have no prompts. This is particularly useful in automated installations.
@@ -46,7 +26,7 @@ The same way, you can use `--no-install-dependencies` to skip the dependency ins
 Powershell v7+ is required for this script. For instructions on how to install, [click here.](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.2)
 
 ```powershell
-Invoke-WebRequest https://raw.githubusercontent.com/LunarVim/LunarVim/master/utils/installer/install.ps1 -UseBasicParsing | Invoke-Expression
+Invoke-WebRequest https://raw.githubusercontent.com/BlueDruddigon/LunarVim/rolling/utils/installer/install.ps1 -UseBasicParsing | Invoke-Expression
 ```
 
 ## Automatic LSP support
@@ -150,18 +130,6 @@ lvim.plugins = {
 
 - [Twitter](https://twitter.com/chrisatmachine)
 
-## Testimonials
-
-> "I have the processing power of a potato with 4 gb of ram and LunarVim runs perfectly."
->
-> - @juanCortelezzi, LunarVim user.
-
-> "My minimal config with a good amount less code than LunarVim loads 40ms slower. Time to switch."
->
-> - @mvllow, Potential LunarVim user.
-
-<div align="center" id="madewithlua">
-
-[![Lua](https://img.shields.io/badge/Made%20with%20Lua-blue.svg?style=for-the-badge&logo=lua)](#madewithlua)
+- [LunarVim](https://github.com/LunarVim/LunarVim)
 
 </div>

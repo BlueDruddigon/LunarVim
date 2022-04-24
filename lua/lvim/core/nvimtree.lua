@@ -9,6 +9,7 @@ function M.config()
       disable_netrw = true,
       hijack_netrw = true,
       open_on_setup = false,
+      hide_root_folder = false,
       ignore_buffer_on_setup = false,
       ignore_ft_on_setup = {
         "startify",
@@ -38,6 +39,31 @@ function M.config()
           error = "",
         },
       },
+      log = {
+        enable = false,
+        truncate = false,
+        types = {
+          all = false,
+          config = false,
+          copy_paste = false,
+          diagnostics = false,
+          git = false,
+          profile = false,
+        },
+      },
+      renderer = {
+        indent_markers = {
+          enable = false,
+          icons = {
+            corner = "└ ",
+            edge = "│ ",
+            none = "  ",
+          },
+        },
+        icons = {
+          webdev_colors = true,
+        },
+      },
       update_focused_file = {
         enable = true,
         update_cwd = true,
@@ -55,9 +81,8 @@ function M.config()
       view = {
         width = 30,
         height = 30,
-        hide_root_folder = false,
         side = "left",
-        auto_resize = false,
+        preserve_window_proportions = false,
         mappings = {
           custom_only = false,
           list = {},
@@ -69,23 +94,27 @@ function M.config()
       filters = {
         dotfiles = false,
         custom = { "node_modules", "\\.cache" },
+        exclude = {},
       },
       trash = {
         cmd = "trash",
         require_confirm = true,
       },
       actions = {
+        use_system_clipboard = true,
         change_dir = {
+          enable = true,
+          restrict_above_cwd = false,
           global = false,
         },
         open_file = {
           resize_window = true,
           quit_on_open = false,
-        },
-        window_picker = {
-          enable = false,
-          chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-          exclude = {},
+          window_picker = {
+            enable = false,
+            chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+            exclude = {},
+          },
         },
       },
     },
@@ -142,6 +171,7 @@ function M.setup()
   local function telescope_find_files(_)
     require("lvim.core.nvimtree").start_telescope "find_files"
   end
+
   local function telescope_live_grep(_)
     require("lvim.core.nvimtree").start_telescope "live_grep"
   end

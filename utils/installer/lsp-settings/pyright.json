@@ -1,0 +1,16 @@
+{
+  "python.venvPath": "$HOME/.env",
+  "python.pythonPath": "$HOME/.env/bin/python3",
+  "python.analysis.logLevel": "Information",
+  "python.analysis.stubPath": "$HOME/Documents/typings",
+  "python.analysis.extraPaths": [],
+  "python.analysis.typeshedPaths": [],
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.typeCheckingMode": "off",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.useLibraryCodeForTypes": true,
+  "python.analysis.diagnosticSeverityOverrides": {},
+  "pyright.disableOrganizeImports": false,
+  "pyright.disableLanguageServices": false
+}
