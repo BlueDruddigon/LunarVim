@@ -75,6 +75,10 @@ lvim.builtin.notify.active = false
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
+lvim.builtin.nvimtree.setup.open_on_setup = true
+lvim.builtin.nvimtree.setup.view.width = 23
+lvim.builtin.nvimtree.setup.actions.open_file.window_picker.enable = false
+lvim.builtin.nvimtree.setup.view.preserve_window_proportions = true
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
