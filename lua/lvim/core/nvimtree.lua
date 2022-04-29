@@ -37,31 +37,6 @@ function M.config()
           error = "",
         },
       },
-      log = {
-        enable = false,
-        truncate = false,
-        types = {
-          all = false,
-          config = false,
-          copy_paste = false,
-          diagnostics = false,
-          git = false,
-          profile = false,
-        },
-      },
-      renderer = {
-        indent_markers = {
-          enable = false,
-          icons = {
-            corner = "└ ",
-            edge = "│ ",
-            none = "  ",
-          },
-        },
-        icons = {
-          webdev_colors = true,
-        },
-      },
       update_focused_file = {
         enable = true,
         update_cwd = true,
