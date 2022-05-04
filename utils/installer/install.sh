@@ -391,7 +391,6 @@ function setup_lvim() {
   setup_shim
 
   cp "$LUNARVIM_BASE_DIR/utils/installer/config.example.lua" "$LUNARVIM_CONFIG_DIR/config.lua"
-  cp -r "$LUNARVIM_BASE_DIR/utils/installer/lsp-settings" "$LUNARVIM_CONFIG_DIR"
 
   echo "Preparing Packer setup"
 

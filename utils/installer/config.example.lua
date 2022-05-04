@@ -120,19 +120,42 @@ local root_files = {
   "setup.cfg",
   "requirements.txt",
   "Pipfile",
+  "manage.py",
   "pyrightconfig.json",
   ".git",
   ".gitignore",
 }
 
 local opts = {
-  cmd = { "/home/beo/.local/share/nvim/lsp_servers/python/node_modules/.bin/pyright-langserver", "--stdio" },
-  filetypes = { "python" },
   root_dir = require("lspconfig.util").root_pattern(unpack(root_files)),
   single_file_support = true,
+  filetypes = { "python" },
+  cmd = { "pyright-langserver", "--stdio" },
+  settings = {
+    pyright = {
+      disableOrganizeImports = false,
+      disableLanguageServices = false,
+    },
+    python = {
+      venvPath = "/home/beo/.env",
+      pythonPath = "/home/beo/.env/bin/python3",
+      analysis = {
+        logLevel = "Information",
+        stubPath = "/home/beo/Documents/typings",
+        extraPaths = {},
+        typeshedPaths = {},
+        diagnosticMode = "workspace",
+        autoSearchPaths = true,
+        typeCheckingMode = "off",
+        autoImportCompletions = true,
+        useLibraryCodeForTypes = true,
+        diagnosticSeverityOverrides = {},
+      }
+    },
+  }
 }
 
-require("lspconfig")["pyright"].setup(opts)
+require("lvim.lsp.manager").setup("pyright", opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
@@ -175,7 +198,11 @@ end
 -- }
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
-  { command = "yapf", filetypes = { "python" }, extra_args = { "--style", "$HOME/.config/yapf/style" } },
+  {
+    name = "yapf",
+    filetypes = { "python" },
+    args = { "--style", "/home/beo/.config/yapf/style" }
+  },
 })
 
 -- -- set additional linters
@@ -195,6 +222,7 @@ formatters.setup({
 --     filetypes = { "javascript", "python" },
 --   },
 -- }
+
 
 -- Additional Plugins
 lvim.plugins = {
