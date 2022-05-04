@@ -74,11 +74,7 @@ function M.common_on_attach(client, bufnr)
   if lvim.lsp.document_highlight then
     lu.setup_document_highlight(client, bufnr)
   end
-<<<<<<< HEAD
   if lvim.lsp.code_lens_refresh then
-=======
-  if lvim.lsp.code_lens_refresh == false then
->>>>>>> eadcd61... Refactor
     lu.setup_codelens_refresh(client, bufnr)
   end
   add_lsp_buffer_keybindings(bufnr)
