@@ -54,7 +54,6 @@ function M.config()
       view = {
         width = 30,
         height = 30,
-        hide_root_folder = false,
         side = "left",
         preserve_window_proportions = false,
         mappings = {
@@ -173,6 +172,7 @@ function M.setup()
   local function telescope_find_files(_)
     require("lvim.core.nvimtree").start_telescope "find_files"
   end
+
   local function telescope_live_grep(_)
     require("lvim.core.nvimtree").start_telescope "live_grep"
   end
