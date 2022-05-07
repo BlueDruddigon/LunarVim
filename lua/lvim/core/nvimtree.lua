@@ -173,10 +173,6 @@ function M.setup()
   local function telescope_find_files(_)
     require("lvim.core.nvimtree").start_telescope "find_files"
   end
-<<<<<<< HEAD
-=======
-
->>>>>>> eadcd61725995551bff90156186e2654f085d4c1
   local function telescope_live_grep(_)
     require("lvim.core.nvimtree").start_telescope "live_grep"
   end
