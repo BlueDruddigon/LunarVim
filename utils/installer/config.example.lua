@@ -23,9 +23,9 @@ lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- unmap a default keymapping
--- lvim.keys.normal_mode["<C-Up>"] = false
--- edit a default keymapping
--- lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
+-- vim.keymap.del("n", "<C-Up>")
+-- override a default keymapping
+-- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
@@ -76,7 +76,7 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = false
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.nvimtree.setup.open_on_setup = true
 lvim.builtin.nvimtree.setup.view.width = 23
 lvim.builtin.nvimtree.setup.actions.open_file.window_picker.enable = false
@@ -382,8 +382,15 @@ vim.api.nvim_set_keymap("i", "<C-k>", "<C-w>k", map_opt)
 vim.api.nvim_set_keymap("x", "<C-k>", "<C-w>k", map_opt)
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
--- lvim.autocommands.custom_groups = {
---   { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
---   { "BufWritePost", "*.py", "lua require('lint').try_lint()" },
---   { "Filetype", "python", "lua require('cmp').setup.buffer({ completion = { autocomplete = false } })" },
--- }
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--   pattern = { "*.json", "*.jsonc" },
+--   -- enable wrap mode for json files only
+--   command = "setlocal wrap",
+-- })
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "zsh",
+--   callback = function()
+--     -- let treesitter use bash highlight for zsh files as well
+--     require("nvim-treesitter.highlight").attach(0, "bash")
+--   end,
+-- })
