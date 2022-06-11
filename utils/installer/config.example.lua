@@ -10,6 +10,7 @@ an executable
 
 vim.cmd [[ let &fcs='eob: ' ]]
 vim.cmd [[ set relativenumber ]]
+vim.opt.clipboard = "unnamed"
 
 -- general
 lvim.log.level = "warn"
@@ -78,6 +79,7 @@ lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.nvimtree.setup.open_on_setup = true
+lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
 lvim.builtin.nvimtree.setup.view.width = 23
 lvim.builtin.nvimtree.setup.actions.open_file.window_picker.enable = false
 lvim.builtin.nvimtree.setup.view.preserve_window_proportions = true
@@ -237,7 +239,7 @@ lvim.plugins = {
       vim.g.copilot_tab_fallback = ""
       vim.g.copilot_filetypes = {
         ['*'] = false,
-        ['python'] = true,
+        -- ['python'] = true,
       }
     end,
   },
@@ -377,9 +379,6 @@ local map_opt = { noremap = true, silent = true }
 vim.api.nvim_set_keymap("n", ",,", [[v:count == 0 ? '<CMD>lua require("Comment.api").call("toggle_current_linewise_op")<CR>g@$' : '<CMD>lua require("Comment.api").locked.toggle_linewise_count()<CR>']], expr)
 vim.api.nvim_set_keymap("x", ",,", '<ESC><CMD>lua require("Comment.api").locked.toggle_linewise_op(vim.fn.visualmode())<CR>', map_opt)
 vim.api.nvim_set_keymap("n", "ge", "<cmd>TroubleToggle<CR>", map_opt)
-vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k", map_opt)
-vim.api.nvim_set_keymap("i", "<C-k>", "<C-w>k", map_opt)
-vim.api.nvim_set_keymap("x", "<C-k>", "<C-w>k", map_opt)
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
