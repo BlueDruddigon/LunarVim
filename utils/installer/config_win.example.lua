@@ -240,6 +240,19 @@ end
 --     filetypes = { "typescript", "typescriptreact" },
 --   },
 -- }
+local formatters = require("lvim.lsp.null-ls.formatters")
+formatters.setup({
+  {
+    command    = "yapf",
+    filetypes  = { "python" },
+    extra_args = { "--style", "" },
+  },
+  {
+    command    = "prettier",
+    filetypes  = { "typescript", "typescriptreact", "typescript.tsx" },
+    extra_args = { "--print-with", "100" },
+  }
+})
 
 -- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"
