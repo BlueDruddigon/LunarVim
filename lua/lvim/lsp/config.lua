@@ -32,6 +32,7 @@ local skipped_servers = {
   "stylelint_lsp",
   "tailwindcss",
   "tflint",
+  "svlangserver",
   "verible",
   "vuels",
 }
@@ -117,6 +118,19 @@ return {
     },
     insert_mode = {},
     visual_mode = {},
+  },
+  ---@usage list of settings of nvim-lsp-installer
+  installer = {
+    setup = {
+      ensure_installed = {},
+      ui = {
+        icons = {
+          server_installed = "✓",
+          server_pending = "",
+          server_uninstalled = "✗",
+        },
+      },
+    },
   },
   null_ls = {
     setup = {},
