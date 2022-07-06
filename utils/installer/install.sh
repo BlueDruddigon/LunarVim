@@ -2,8 +2,8 @@
 set -eo pipefail
 
 #Set branch to master unless specified by the user
-declare LV_BRANCH="${LV_BRANCH:-"master"}"
-declare -r LV_REMOTE="${LV_REMOTE:-lunarvim/lunarvim.git}"
+declare LV_BRANCH="${LV_BRANCH:-"rolling"}"
+declare -r LV_REMOTE="${LV_REMOTE:-BlueDruddigon/LunarVim.git}"
 declare -r INSTALL_PREFIX="${INSTALL_PREFIX:-"$HOME/.local"}"
 
 declare -r XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/.local/share"}"
@@ -350,25 +350,6 @@ function backup_old_config() {
   local src="$LUNARVIM_CONFIG_DIR"
   if [ ! -d "$src" ]; then
     return
-  fi
-  mkdir -p "$src.old"
-  touch "$src/ignore"
-  msg "Backing up old $src to $src.old"
-  if command -v rsync &>/dev/null; then
-    rsync --archive -hh --stats --partial --copy-links --cvs-exclude "$src"/ "$src.old"
-  else
-    OS="$(uname -s)"
-    case "$OS" in
-      Linux | *BSD)
-        cp -r "$src/"* "$src.old/."
-        ;;
-      Darwin)
-        cp -R "$src/"* "$src.old/."
-        ;;
-      *)
-        echo "OS $OS is not currently supported."
-        ;;
-    esac
   fi
   msg "Backup operation complete"
 }
