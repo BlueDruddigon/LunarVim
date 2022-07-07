@@ -141,13 +141,6 @@ lvim.builtin.treesitter.indent.enable = false
 --     "sumeko_lua",
 --     "jsonls",
 -- }
-lvim.lsp.installer.setup.ensure_installed = {
-  "sumeko_lua",
-  "jsonls",
-  "pyright",
-  "tsserver",
-  "jdtls",
-}
 
 -- -- change UI setting of `LspInstallInfo`
 -- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
