@@ -130,6 +130,13 @@ lvim.builtin.treesitter.indent.enable = false
 --     "sumeko_lua",
 --     "jsonls",
 -- }
+lvim.lsp.installer.setup.ensure_installed = {
+  "sumeko_lua",
+  "jsonls",
+  "pyright",
+  "tsserver",
+}
+
 -- -- change UI setting of `LspInstallInfo`
 -- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
 lvim.lsp.installer.setup.ui.check_outdated_servers_on_open = false
@@ -189,7 +196,34 @@ local opts = {
   }
 }
 
+-- Pyright LSP
 require("lvim.lsp.manager").setup("pyright", opts)
+
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tsserver" })
+
+local ts_root_files = {
+  "package.json",
+  "jsconfig.json",
+  "tsconfig.json",
+  ".git",
+  ".gitignore",
+}
+
+local ts_opts = {
+  init_options = { hostInfo = "neovim" },
+  root_dir = require("lspconfig.util").root_pattern(unpack(ts_root_files)),
+  filetypes = {
+    "javascript",
+    "javascriptreact",
+    "javascript.jsx",
+    "typescript",
+    "typescriptreact",
+    "typescript.tsx",
+  },
+}
+
+-- TSServer LSP
+require("lvim.lsp.manager").setup("tsserver", ts_opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
@@ -207,9 +241,7 @@ require("lvim.lsp.manager").setup("pyright", opts)
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
 lvim.lsp.on_attach_callback = function(_, bufnr)
-  local function buf_set_option(...)
-    vim.api.nvim_buf_set_option(bufnr, ...)
-  end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   --Enable completion triggered by <c-x><c-o>
   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -235,12 +267,12 @@ formatters.setup({
   {
     command    = "yapf",
     filetypes  = { "python" },
-    extra_args = { "--style", "" },
+    extra_args = { "--style=C:\\Users\\mikur\\.config\\yapf\\style" },
   },
   {
     command    = "prettier",
-    filetypes  = { "typescript", "typescriptreact", "typescript.tsx" },
-    extra_args = { "--print-with", "100" },
+    filetypes  = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+    extra_args = {},
   }
 })
 
@@ -261,6 +293,18 @@ formatters.setup({
 --     filetypes = { "javascript", "python" },
 --   },
 -- }
+local linters = require("lvim.lsp.null-ls.linters")
+linters.setup({
+  {
+    command = "flake8",
+    filetypes = { "python" },
+  },
+  {
+    command = "eslint",
+    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+    extra_args = {},
+  }
+})
 
 -- Additional Plugins
 -- lvim.plugins = {
