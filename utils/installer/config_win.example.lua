@@ -116,7 +116,16 @@ lvim.builtin.nvimtree.setup.view.preserve_window_proportions = true
 lvim.builtin.treesitter.ensure_installed = {
   "c",
   "lua",
+  "cpp",
+  "html",
+  "css",
+  "cmake",
+  "powershell",
   "python",
+  "java",
+  "javascript",
+  "typescript",
+  "tsx"
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -135,6 +144,7 @@ lvim.lsp.installer.setup.ensure_installed = {
   "jsonls",
   "pyright",
   "tsserver",
+  "jdtls",
 }
 
 -- -- change UI setting of `LspInstallInfo`
