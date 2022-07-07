@@ -125,7 +125,9 @@ lvim.builtin.treesitter.ensure_installed = {
   "java",
   "javascript",
   "typescript",
-  "tsx"
+  "tsx",
+  "json",
+  "yaml"
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
