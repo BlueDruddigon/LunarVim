@@ -9,7 +9,7 @@ an executable
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 vim.cmd [[ let &fcs='eob: ' ]]
-vim.cmd [[ set relativenumber ]]
+vim.opt.relativenumber = true
 vim.opt.clipboard = "unnamed"
 
 -- general
@@ -137,6 +137,7 @@ lvim.lsp.installer.setup.ui.keymaps = {
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
 -- require("lvim.lsp.manager").setup("pyright", opts)
+-- setup Pyright LSP
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 
 local root_files = {
@@ -161,11 +162,11 @@ local opts = {
       disableLanguageServices = false,
     },
     python = {
-      venvPath = "/home/beo/.env",
-      pythonPath = "/home/beo/.env/bin/python3",
+      venvPath = "/Users/beosup/.env",
+      pythonPath = "/Users/beosup/.env/bin/python3",
       analysis = {
         logLevel = "Information",
-        stubPath = "/home/beo/Documents/typings",
+        stubPath = "/Users/beosup/Documents/typings",
         extraPaths = {},
         typeshedPaths = {},
         diagnosticMode = "workspace",
@@ -257,12 +258,7 @@ formatters.setup({
   {
     command = "yapf",
     filetypes = { "python" },
-    extra_args = { "--style=/home/beo/.config/yapf/style" },
-  },
-  {
-    command = "prettier",
-    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-    extra_args = { "--stdin", "--stdin-filepath", "$FILENAME" },
+    extra_args = { "--style=/Users/beosup/.config/yapf/style" },
   },
   {
     command = "prettier",
