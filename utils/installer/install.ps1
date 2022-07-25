@@ -274,7 +274,6 @@ function create_alias {
 
 function print_logo(){
     Write-Output "
-
 		88\                                                   88\               
 		88 |                                                  \__|              
 		88 |88\   88\ 888888$\   888888\   888888\ 88\    88\ 88\ 888888\8888\  

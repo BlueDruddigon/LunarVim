@@ -3,12 +3,6 @@
  `lvim` is the global options object
 ]]
 
-<<<<<<< HEAD
--- Enable powershell as your default shell
-vim.opt.shell = "pwsh.exe -NoLogo"
-vim.opt.shellcmdflag =
-  "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
-=======
 vim.cmd [[ let &fcs='eob: ' ]]
 vim.g.relativenumber = true
 vim.g.clipboard = "unnamed"
@@ -16,7 +10,6 @@ vim.g.clipboard = "unnamed"
 -- Enable powershell as your default shell
 vim.opt.shell = "pwsh.exe -NoLogo"
 vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
->>>>>>> 797f757 (Update Personal)
 vim.cmd [[
 		let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 		let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
@@ -38,13 +31,9 @@ vim.g.clipboard = {
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-<<<<<<< HEAD
-lvim.colorscheme = "onedarker"
-=======
 -- lvim.colorscheme = "onedarker"
 lvim.colorscheme = "material"
 vim.g.material_theme = "oceanic"
->>>>>>> 797f757 (Update Personal)
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -86,26 +75,6 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
 --   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 -- }
-<<<<<<< HEAD
-
--- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.alpha.active = true
-lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
-lvim.builtin.terminal.active = false
--- lvim.builtin.terminal.shell = "pwsh.exe -NoLogo"
-
--- nvim-tree has some performance issues on windows, see kyazdani42/nvim-tree.lua#549
-lvim.builtin.nvimtree.setup.diagnostics.enable = false
-lvim.builtin.nvimtree.setup.filters.custom = false
-lvim.builtin.nvimtree.setup.git.enable = false
-lvim.builtin.nvimtree.setup.update_cwd = false
-lvim.builtin.nvimtree.setup.update_focused_file.update_cwd = false
-lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.highlight_git = false
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
-
-=======
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["sm"] = { "<cmd>:Telescope media_files<CR>", "Media Files" }
 lvim.builtin.which_key.mappings["t"] = {
@@ -143,18 +112,14 @@ lvim.builtin.nvimtree.setup.actions.open_file.window_picker.enable = false
 lvim.builtin.nvimtree.setup.view.width = 23
 lvim.builtin.nvimtree.setup.view.preserve_window_proportions = true
 
->>>>>>> 797f757 (Update Personal)
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
   "c",
   "lua",
-<<<<<<< HEAD
-=======
   "cpp",
   "html",
   "css",
   "cmake",
-  "powershell",
   "python",
   "java",
   "javascript",
@@ -162,15 +127,11 @@ lvim.builtin.treesitter.ensure_installed = {
   "tsx",
   "json",
   "yaml"
->>>>>>> 797f757 (Update Personal)
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-<<<<<<< HEAD
-=======
 lvim.builtin.treesitter.indent.enable = false
->>>>>>> 797f757 (Update Personal)
 
 -- generic LSP settings
 
@@ -179,16 +140,6 @@ lvim.builtin.treesitter.indent.enable = false
 --     "sumeko_lua",
 --     "jsonls",
 -- }
-<<<<<<< HEAD
--- -- change UI setting of `LspInstallInfo`
--- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
--- lvim.lsp.installer.setup.ui.check_outdated_servers_on_open = false
--- lvim.lsp.installer.setup.ui.border = "rounded"
--- lvim.lsp.installer.setup.ui.keymaps = {
---     uninstall_server = "d",
---     toggle_server_expand = "o",
--- }
-=======
 
 -- -- change UI setting of `LspInstallInfo`
 -- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
@@ -198,7 +149,6 @@ lvim.lsp.installer.setup.ui.keymaps = {
   uninstall_server = "d",
   toggle_server_expand = "o",
 }
->>>>>>> 797f757 (Update Personal)
 
 -- ---@usage disable automatic installation of servers
 -- lvim.lsp.automatic_servers_installation = false
@@ -208,8 +158,6 @@ lvim.lsp.installer.setup.ui.keymaps = {
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
 -- require("lvim.lsp.manager").setup("pyright", opts)
-<<<<<<< HEAD
-=======
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 
 local root_files = {
@@ -280,7 +228,11 @@ local ts_opts = {
 
 -- TSServer LSP
 require("lvim.lsp.manager").setup("tsserver", ts_opts)
->>>>>>> 797f757 (Update Personal)
+
+-- Tailwindcss LSP
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tailwindcss" })
+
+require("lvim.lsp.manager").setup("tailwindcss", {})
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
@@ -297,15 +249,12 @@ require("lvim.lsp.manager").setup("tsserver", ts_opts)
 --   --Enable completion triggered by <c-x><c-o>
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
-<<<<<<< HEAD
-=======
 lvim.lsp.on_attach_callback = function(_, bufnr)
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   --Enable completion triggered by <c-x><c-o>
   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 end
->>>>>>> 797f757 (Update Personal)
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 -- local formatters = require "lvim.lsp.null-ls.formatters"
@@ -322,8 +271,6 @@ end
 --     filetypes = { "typescript", "typescriptreact" },
 --   },
 -- }
-<<<<<<< HEAD
-=======
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
   {
@@ -332,12 +279,11 @@ formatters.setup({
     extra_args = { "--style=C:\\Users\\mikur\\.config\\yapf\\style" },
   },
   {
-    command    = "prettier",
-    filetypes  = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-    extra_args = {},
-  }
+    command = "prettier",
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+    extra_args = { "--stdin", "--stdin-filepath", "$FILENAME" },
+  },
 })
->>>>>>> 797f757 (Update Personal)
 
 -- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"
@@ -356,21 +302,23 @@ formatters.setup({
 --     filetypes = { "javascript", "python" },
 --   },
 -- }
-<<<<<<< HEAD
-=======
 local linters = require("lvim.lsp.null-ls.linters")
 linters.setup({
   {
-    command = "flake8",
-    filetypes = { "python" },
-  },
-  {
     command = "eslint",
-    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-    extra_args = {},
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+    extra_args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
   }
 })
->>>>>>> 797f757 (Update Personal)
+
+local code_actions = require("lvim.lsp.null-ls.code_actions")
+code_actions.setup({
+  {
+    command = "eslint",
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+    extra_args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
+  },
+})
 
 -- Additional Plugins
 -- lvim.plugins = {
@@ -380,8 +328,6 @@ linters.setup({
 --       cmd = "TroubleToggle",
 --     },
 -- }
-<<<<<<< HEAD
-=======
 lvim.plugins = {
   { "marko-cerovac/material.nvim" },
   -- {
@@ -402,7 +348,6 @@ lvim.plugins = {
   -- },
   -- {
   --   'tzachar/cmp-tabnine',
-  --   active = false,
   --   after = "nvim-cmp",
   --   run = 'powershell ./install.ps1',
   --   requires = 'hrsh7th/nvim-cmp',
@@ -425,7 +370,7 @@ lvim.plugins = {
     "ray-x/lsp_signature.nvim",
     event = "BufRead",
     config = function()
-      require("lsp_signature").setup()
+      require("lsp_signature").setup({})
     end
   },
   {
@@ -535,7 +480,7 @@ lvim.plugins = {
     "windwp/nvim-ts-autotag",
     event = "BufWinEnter",
     config = function()
-      require("nvim-ts-autotag").setup()
+      require("nvim-ts-autotag").setup({})
     end,
   },
   {
@@ -563,7 +508,6 @@ vim.api.nvim_set_keymap("n", ",,",
 vim.api.nvim_set_keymap("x", ",,",
   '<ESC><CMD>lua require("Comment.api").locked.toggle_linewise_op(vim.fn.visualmode())<CR>', map_opt)
 vim.api.nvim_set_keymap("n", "ge", "<cmd>TroubleToggle<CR>", map_opt)
->>>>>>> 797f757 (Update Personal)
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
