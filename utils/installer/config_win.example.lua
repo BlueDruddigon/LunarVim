@@ -370,7 +370,7 @@ lvim.plugins = {
     "ray-x/lsp_signature.nvim",
     event = "BufRead",
     config = function()
-      require("lsp_signature").setup({})
+      require("lsp_signature").setup()
     end
   },
   {
@@ -480,21 +480,19 @@ lvim.plugins = {
     "windwp/nvim-ts-autotag",
     event = "BufWinEnter",
     config = function()
-      require("nvim-ts-autotag").setup({})
+      require("nvim-ts-autotag").setup()
     end,
   },
   {
     "ekickx/clipboard-image.nvim",
     config = function()
-      require("clipboard-image").setup({})
+      require("clipboard-image").setup()
     end
   },
   {
     "ellisonleao/glow.nvim",
-    branch = "main",
     config = function()
-      vim.g.glow_border = "rounded"
-      vim.g.glow_use_pager = true
+      require("glow").setup()
     end
   },
 }

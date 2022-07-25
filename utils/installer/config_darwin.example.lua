@@ -236,6 +236,8 @@ lvim.lsp.on_attach_callback = function(_, bufnr)
 
   --Enable completion triggered by <c-x><c-o>
   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+
+  require("lsp_signature").on_attach()
 end
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
@@ -352,7 +354,7 @@ lvim.plugins = {
     "ray-x/lsp_signature.nvim",
     event = "BufRead",
     config = function()
-      require("lsp_signature").setup({})
+      require("lsp_signature").setup()
     end
   },
   {
@@ -404,13 +406,13 @@ lvim.plugins = {
       }
     end,
   },
-  {
-    "nvim-telescope/telescope-media-files.nvim",
-    event = "BufWinEnter",
-    config = function()
-      require("telescope").load_extension("media_files")
-    end,
-  },
+  -- {
+  --   "nvim-telescope/telescope-media-files.nvim",
+  --   event = "BufWinEnter",
+  --   config = function()
+  --     require("telescope").load_extension("media_files")
+  --   end,
+  -- },
   {
     "itchyny/vim-cursorword",
     event = { "BufEnter", "BufNewFile" },
@@ -462,21 +464,19 @@ lvim.plugins = {
     "windwp/nvim-ts-autotag",
     event = "BufWinEnter",
     config = function()
-      require("nvim-ts-autotag").setup({})
+      require("nvim-ts-autotag").setup()
     end,
   },
   {
     "ekickx/clipboard-image.nvim",
     config = function()
-      require("clipboard-image").setup({})
+      require("clipboard-image").setup()
     end
   },
   {
     "ellisonleao/glow.nvim",
-    branch = "main",
     config = function()
-      vim.g.glow_border = "rounded"
-      vim.g.glow_use_pager = true
+      require("glow").setup()
     end
   },
 }
