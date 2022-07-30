@@ -161,8 +161,6 @@ local opts = {
       disableLanguageServices = false,
     },
     python = {
-      venvPath = "/home/beo/.env",
-      pythonPath = "/home/beo/.env/bin/python3",
       analysis = {
         logLevel = "Information",
         stubPath = "/home/beo/Documents/typings",

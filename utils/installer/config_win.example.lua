@@ -182,8 +182,6 @@ local opts = {
       disableLanguageServices = false,
     },
     python = {
-      venvPath = "C:\\Users\\mikur\\.env",
-      pythonPath = "C:\\Users\\mikur\\.env\\Scripts\\python.exe",
       analysis = {
         logLevel = "Information",
         stubPath = "D:\\Documents\\typings",

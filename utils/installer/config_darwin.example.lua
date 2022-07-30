@@ -162,8 +162,6 @@ local opts = {
       disableLanguageServices = false,
     },
     python = {
-      venvPath = "/Users/beosup/.env",
-      pythonPath = "/Users/beosup/.env/bin/python3",
       analysis = {
         logLevel = "Information",
         stubPath = "/Users/beosup/Documents/typings",
