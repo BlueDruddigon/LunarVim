@@ -153,6 +153,7 @@ local root_files = {
 }
 
 local opts = {
+  on_attach = lvim.lsp.on_attach_callback,
   root_dir = require("lspconfig.util").root_pattern(unpack(root_files)),
   single_file_support = true,
   filetypes = { "python" },
@@ -232,10 +233,10 @@ lvim.lsp.on_attach_callback = function(_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, ...)
   end
 
+  require("lsp_signature").on_attach()
+
   --Enable completion triggered by <c-x><c-o>
   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-
-  require("lsp_signature").on_attach()
 end
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
