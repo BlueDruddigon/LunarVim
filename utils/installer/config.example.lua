@@ -152,6 +152,7 @@ local root_files = {
 }
 
 local opts = {
+  on_attach = lvim.lsp.on_attach_callback,
   root_dir = require("lspconfig.util").root_pattern(unpack(root_files)),
   single_file_support = true,
   filetypes = { "python" },
@@ -191,6 +192,7 @@ local ts_root_files = {
 }
 
 local ts_opts = {
+  on_attach = lvim.lsp.on_attach_callback,
   init_options = { hostInfo = "neovim" },
   root_dir = require("lspconfig.util").root_pattern(unpack(ts_root_files)),
   filetypes = {
@@ -201,7 +203,6 @@ local ts_opts = {
     "typescriptreact",
     "typescript.tsx",
   },
-  on_attach = lvim.lsp.on_attach_callback,
 }
 
 require("lvim.lsp.manager").setup("tsserver", ts_opts)
@@ -231,6 +232,8 @@ lvim.lsp.on_attach_callback = function(_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, ...)
   end
 
+  require("lsp_signature").on_attach()
+
   --Enable completion triggered by <c-x><c-o>
   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 end
@@ -258,9 +261,9 @@ formatters.setup({
     extra_args = { "--style=/home/beo/.config/yapf/style" },
   },
   {
-    command = "prettier",
+    command = "eslint",
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-    extra_args = { "--stdin", "--stdin-filepath", "$FILENAME" },
+    extra_args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
   },
   {
     command = "prettier",

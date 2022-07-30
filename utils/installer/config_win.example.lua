@@ -173,6 +173,7 @@ local root_files = {
 }
 
 local opts = {
+  on_attach = lvim.lsp.on_attach_callback,
   root_dir = require("lspconfig.util").root_pattern(unpack(root_files)),
   single_file_support = true,
   filetypes = { "python" },
@@ -212,6 +213,7 @@ local ts_root_files = {
 }
 
 local ts_opts = {
+  on_attach = lvim.lsp.on_attach_callback,
   init_options = { hostInfo = "neovim" },
   root_dir = require("lspconfig.util").root_pattern(unpack(ts_root_files)),
   filetypes = {
@@ -248,7 +250,11 @@ require("lvim.lsp.manager").setup("tailwindcss", {})
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
 lvim.lsp.on_attach_callback = function(_, bufnr)
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  local function buf_set_option(...)
+    vim.api.nvim_buf_set_option(bufnr, ...)
+  end
+
+  require("lsp_signature").on_attach()
 
   --Enable completion triggered by <c-x><c-o>
   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -280,6 +286,11 @@ formatters.setup({
     command = "prettier",
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
     extra_args = { "--stdin", "--stdin-filepath", "$FILENAME" },
+  },
+  {
+    command = "eslint",
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+    extra_args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
   },
 })
 
