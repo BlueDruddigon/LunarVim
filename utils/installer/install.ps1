@@ -217,9 +217,6 @@ function setup_lvim() {
     $exampleConfig = "$env:LUNARVIM_BASE_DIR\utils\installer\config_win.example.lua"
     Copy-Item -Force "$exampleConfig" "$env:LUNARVIM_CONFIG_DIR\config.lua"
 
-    # FIXME: this has never worked
-    # Invoke-Expression "$INSTALL_PREFIX\bin\lvim.ps1 --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
-
     Write-Host "Make sure to run `:PackerSync` at first launch" -ForegroundColor Green
 
     create_alias
@@ -274,6 +271,7 @@ function create_alias {
 
 function print_logo(){
     Write-Output "
+
 		88\                                                   88\               
 		88 |                                                  \__|              
 		88 |88\   88\ 888888$\   888888\   888888\ 88\    88\ 88\ 888888\8888\  
