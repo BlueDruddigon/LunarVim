@@ -9,7 +9,7 @@ an executable
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 vim.cmd [[ let &fcs='eob: ' ]]
-vim.opt.relativenumber = true
+vim.cmd [[ set relativenumber ]]
 vim.opt.clipboard = "unnamed"
 
 -- general
@@ -131,7 +131,6 @@ lvim.builtin.treesitter.indent.enable = false
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
 -- require("lvim.lsp.manager").setup("pyright", opts)
--- setup Pyright LSP
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 
 local root_files = {
@@ -146,7 +145,7 @@ local root_files = {
   ".gitignore",
 }
 
-local opts = {
+local pyright_opts = {
   on_attach = lvim.lsp.on_attach_callback,
   root_dir = require("lspconfig.util").root_pattern(unpack(root_files)),
   single_file_support = true,
@@ -159,7 +158,7 @@ local opts = {
     python = {
       analysis = {
         logLevel = "Information",
-        stubPath = "/Users/beosup/Documents/typings",
+        stubPath = "/home/beo/Documents/typings",
         extraPaths = {},
         typeshedPaths = {},
         diagnosticMode = "workspace",
@@ -173,7 +172,7 @@ local opts = {
   }
 }
 
-require("lvim.lsp.manager").setup("pyright", opts)
+require("lvim.lsp.manager").setup("pyright", pyright_opts)
 
 -- setup tsserver LSP
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tsserver" })
@@ -253,7 +252,7 @@ formatters.setup({
   {
     command = "yapf",
     filetypes = { "python" },
-    extra_args = { "--style=/Users/beosup/.config/yapf/style" },
+    extra_args = { "--style=/home/beo/.config/yapf/style" },
   },
   {
     command = "prettier",
@@ -261,9 +260,9 @@ formatters.setup({
     extra_args = { "--stdin", "--stdin-filepath", "$FILENAME" },
   },
   {
-    command = "eslint",
+    command = "prettier",
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-    extra_args = { "-f", "json", "--stdin", "--stdin-filename", "$FILENAME" },
+    extra_args = { "--stdin", "--stdin-filepath", "$FILENAME" },
   },
 })
 
@@ -350,11 +349,31 @@ lvim.plugins = {
   -- },
   {
     "ray-x/lsp_signature.nvim",
-    event = "BufRead",
+    event = "BufWinEnter",
     config = function()
       require("lsp_signature").setup()
     end
   },
+  -- {
+  --   "glepnir/lspsaga.nvim",
+  --   branch = "main",
+  --   config = function()
+  --     local saga = require("lspsaga")
+  --     saga.init_lsp_saga({
+  --       server_filetype_map = {
+  --         typescript = "typescript",
+  --         python = "python",
+  --       }
+  --     })
+  --     local opts = { noremap = true, silent = true }
+  --     vim.api.nvim_set_keymap("n", "<C-j>", "<CMD>Lspsaga diagnostic_jump_next<CR>", opts)
+  --     vim.api.nvim_set_keymap("n", "K", "<CMD>Lspsaga hover_doc<CR>", opts)
+  --     vim.api.nvim_set_keymap("n", "gd", "<CMD>Lspsaga lsp_finder<CR>", opts)
+  --     vim.api.nvim_set_keymap("i", "<C-k>", "<CMD>Lspsaga signature_help<CR>", opts)
+  --     vim.api.nvim_set_keymap("n", "gp", "<CMD>Lspsaga preview_definition<CR>", opts)
+  --     vim.api.nvim_set_keymap("n", "gr", "<CMD>Lspsaga rename<CR>", opts)
+  --   end
+  -- },
   {
     "windwp/nvim-spectre",
     event = "BufRead",
@@ -404,13 +423,19 @@ lvim.plugins = {
       }
     end,
   },
-  -- {
-  --   "nvim-telescope/telescope-media-files.nvim",
-  --   event = "BufWinEnter",
-  --   config = function()
-  --     require("telescope").load_extension("media_files")
-  --   end,
-  -- },
+  {
+    "nvim-telescope/telescope-media-files.nvim",
+    event = "BufWinEnter",
+    config = function()
+      require("telescope").load_extension("media_files")
+    end,
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    run = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+  },
   {
     "itchyny/vim-cursorword",
     event = { "BufEnter", "BufNewFile" },

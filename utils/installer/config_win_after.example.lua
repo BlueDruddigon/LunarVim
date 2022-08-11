@@ -1,16 +1,32 @@
 --[[
-lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
+ THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+ `lvim` is the global options object
 ]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 vim.cmd [[ let &fcs='eob: ' ]]
-vim.opt.relativenumber = true
-vim.opt.clipboard = "unnamed"
+vim.g.relativenumber = true
+vim.g.clipboard = "unnamed"
+
+-- Enable powershell as your default shell
+vim.opt.shell = "pwsh.exe -NoLogo"
+vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+vim.cmd [[
+		let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+		let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+		set shellquote= shellxquote=
+  ]]
+
+-- Set a compatible clipboard manager
+vim.g.clipboard = {
+  copy = {
+    ["+"] = "win32yank.exe -i --crlf",
+    ["*"] = "win32yank.exe -i --crlf",
+  },
+  paste = {
+    ["+"] = "win32yank.exe -o --lf",
+    ["*"] = "win32yank.exe -o --lf",
+  },
+}
 
 -- general
 lvim.log.level = "warn"
@@ -57,7 +73,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
 --   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
 --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
+--   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 -- }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["sm"] = { "<cmd>:Telescope media_files<CR>", "Media Files" }
@@ -72,14 +88,23 @@ lvim.builtin.which_key.mappings["t"] = {
   t = { "<cmd>TroubleToggle<CR>", "TroubleToggle" },
 }
 
--- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = false
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = false
 lvim.builtin.terminal.active = true
+lvim.builtin.terminal.shell = "pwsh.exe -NoLogo"
+
+-- nvim-tree has some performance issues on windows, see kyazdani42/nvim-tree.lua#549
+lvim.builtin.nvimtree.setup.diagnostics.enable = false
+lvim.builtin.nvimtree.setup.git.enable = false
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+
+lvim.builtin.nvimtree.setup.filters.custom = {}
+lvim.builtin.nvimtree.setup.update_cwd = true
+lvim.builtin.nvimtree.setup.update_focused_file.update_cwd = true
+lvim.builtin.nvimtree.setup.renderer.highlight_git = true
 
 lvim.builtin.nvimtree.setup.open_on_setup = true
 lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
@@ -89,18 +114,19 @@ lvim.builtin.nvimtree.setup.view.preserve_window_proportions = true
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
-  "bash",
   "c",
-  "javascript",
-  "json",
   "lua",
+  "cpp",
+  "html",
+  "css",
+  "cmake",
   "python",
+  "java",
+  "javascript",
   "typescript",
   "tsx",
-  "css",
-  "rust",
-  "java",
-  "yaml",
+  "json",
+  "yaml"
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -114,13 +140,14 @@ lvim.builtin.treesitter.indent.enable = false
 --     "sumeko_lua",
 --     "jsonls",
 -- }
+
 -- -- change UI setting of `LspInstallInfo`
 -- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
 -- lvim.lsp.installer.setup.ui.check_outdated_servers_on_open = false
 -- lvim.lsp.installer.setup.ui.border = "rounded"
 -- lvim.lsp.installer.setup.ui.keymaps = {
---     uninstall_server = "d",
---     toggle_server_expand = "o",
+--   uninstall_server = "d",
+--   toggle_server_expand = "o",
 -- }
 
 -- ---@usage disable automatic installation of servers
@@ -131,7 +158,6 @@ lvim.builtin.treesitter.indent.enable = false
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
 -- require("lvim.lsp.manager").setup("pyright", opts)
--- setup Pyright LSP
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
 
 local root_files = {
@@ -159,13 +185,13 @@ local opts = {
     python = {
       analysis = {
         logLevel = "Information",
-        stubPath = "/Users/beosup/Documents/typings",
+        stubPath = "D:\\Documents\\typings",
         extraPaths = {},
         typeshedPaths = {},
         diagnosticMode = "workspace",
         autoSearchPaths = true,
         typeCheckingMode = "off",
-        autoImportCompletions = true,
+        autoImportCompletions = false,
         useLibraryCodeForTypes = true,
         diagnosticSeverityOverrides = {},
       }
@@ -173,9 +199,9 @@ local opts = {
   }
 }
 
+-- Pyright LSP
 require("lvim.lsp.manager").setup("pyright", opts)
 
--- setup tsserver LSP
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tsserver" })
 
 local ts_root_files = {
@@ -200,6 +226,7 @@ local ts_opts = {
   },
 }
 
+-- TSServer LSP
 require("lvim.lsp.manager").setup("tsserver", ts_opts)
 
 -- Tailwindcss LSP
@@ -251,9 +278,9 @@ end
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
   {
-    command = "yapf",
-    filetypes = { "python" },
-    extra_args = { "--style=/Users/beosup/.config/yapf/style" },
+    command    = "yapf",
+    filetypes  = { "python" },
+    extra_args = { "--style=C:\\Users\\mikur\\.config\\yapf\\style" },
   },
   {
     command = "prettier",
@@ -331,7 +358,7 @@ lvim.plugins = {
   -- {
   --   'tzachar/cmp-tabnine',
   --   after = "nvim-cmp",
-  --   run = './install.sh',
+  --   run = 'powershell ./install.ps1',
   --   requires = 'hrsh7th/nvim-cmp',
   --   config = function()
   --     local tabnine = require("cmp_tabnine.config")
@@ -404,13 +431,13 @@ lvim.plugins = {
       }
     end,
   },
-  -- {
-  --   "nvim-telescope/telescope-media-files.nvim",
-  --   event = "BufWinEnter",
-  --   config = function()
-  --     require("telescope").load_extension("media_files")
-  --   end,
-  -- },
+  {
+    "nvim-telescope/telescope-media-files.nvim",
+    event = "BufWinEnter",
+    config = function()
+      require("telescope").load_extension("media_files")
+    end,
+  },
   {
     "itchyny/vim-cursorword",
     event = { "BufEnter", "BufNewFile" },
