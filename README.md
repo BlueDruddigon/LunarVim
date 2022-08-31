@@ -19,7 +19,7 @@ bash <(curl -s https://raw.githubusercontent.com/BlueDruddigon/LunarVim/rolling/
 
 To run the install script without any interaction you can pass the `-y` flag to automatically install all dependencies and have no prompts. This is particularly useful in automated installations.
 
-The same way, you can use `--no-install-dependencies` to skip the dependency installation.
+In the same way, you can use `--no-install-dependencies` to skip the dependency installation.
 
 ### Windows (Powershell 7+):
 
@@ -31,7 +31,7 @@ Invoke-WebRequest https://raw.githubusercontent.com/BlueDruddigon/LunarVim/rolli
 
 ## Automatic LSP support
 
-By default, most supported language servers will get automatically installed once you open the supported file-type, e.g, opening a Python file for the first time will install `Pyright` and configure it automatically for you.
+By default, most supported language servers will get automatically installed once you open the supported file type, e.g, opening a Python file for the first time will install `Pyright` and configure it automatically for you.
 
 ## Configuration file
 
@@ -79,7 +79,7 @@ formatters.setup {
   { command = "black" },
   {
     command = "prettier",
-    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+    ---@usage specify which filetypes to enable. By default, providers will attach to all the filetypes it supports.
     filetypes = { "typescript", "typescriptreact" },
   },
 }
@@ -89,7 +89,7 @@ local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
   {
     command = "eslint_d",
-    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+    ---@usage specify which filetypes to enable. By default, providers will attach to all the filetypes it supports.
     filetypes = { "javascript", "javascriptreact" },
   },
 }
