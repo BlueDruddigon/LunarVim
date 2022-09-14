@@ -265,27 +265,22 @@ M.config = function()
       ["<C-e>"] = cmp.mapping.abort(),
       ["<CR>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
-          local confirm_opts = lvim.builtin.cmp.confirm_opts
+          local confirm_opts = vim.deepcopy(lvim.builtin.cmp.confirm_opts) -- avoid mutating the original opts below
           local is_insert_mode = function()
             return vim.api.nvim_get_mode().mode:sub(1, 1) == "i"
           end
           if is_insert_mode() then -- prevent overwriting brackets
             confirm_opts.behavior = cmp.ConfirmBehavior.Insert
           end
-          cmp.confirm(confirm_opts)
-          if jumpable(1) then
-            luasnip.jump(1)
+          if cmp.confirm(confirm_opts) then
+            return -- success, exit early
           end
-          return
         end
 
-        if jumpable(1) then
-          if not luasnip.jump(1) then
-            fallback()
-          end
-        else
-          fallback()
+        if jumpable(1) and luasnip.jump(1) then
+          return -- success, exit early
         end
+        fallback() -- if not exited early, always fallback
       end),
     },
   }
