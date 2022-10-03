@@ -51,7 +51,7 @@ function usage() {
   echo "    -l, --local                              Install local copy of LunarVim"
   echo "    -y, --yes                                Disable confirmation prompts (answer yes to all questions)"
   echo "    --overwrite                              Overwrite previous LunarVim configuration (a backup is always performed first)"
-  echo "    --[no]-install-dependencies              Whether to automatically install external dependencies (will prompt by default)"
+  echo "    --[no-]install-dependencies              Whether to automatically install external dependencies (will prompt by default)"
 }
 
 function parse_arguments() {
@@ -376,7 +376,7 @@ function backup_old_config() {
 function clone_lvim() {
   msg "Cloning LunarVim configuration"
   if ! git clone --branch "$LV_BRANCH" \
-    --depth 1 "https://github.com/${LV_REMOTE}" "$LUNARVIM_BASE_DIR"; then
+    "https://github.com/${LV_REMOTE}" "$LUNARVIM_BASE_DIR"; then
     echo "Failed to clone repository. Installation failed."
     exit 1
   fi

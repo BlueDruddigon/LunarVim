@@ -22,6 +22,7 @@ local skipped_servers = {
   "reason_ls",
   "scry",
   "solang",
+  "solc",
   "solidity_ls",
   "sorbet",
   "sourcekit",
@@ -46,10 +47,10 @@ return {
     signs = {
       active = true,
       values = {
-        { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn", text = "" },
-        { name = "DiagnosticSignHint", text = "" },
-        { name = "DiagnosticSignInfo", text = "" },
+        { name = "DiagnosticSignError", text = lvim.icons.diagnostics.Error },
+        { name = "DiagnosticSignWarn", text = lvim.icons.diagnostics.Warning },
+        { name = "DiagnosticSignHint", text = lvim.icons.diagnostics.Hint },
+        { name = "DiagnosticSignInfo", text = lvim.icons.diagnostics.Info },
       },
     },
     virtual_text = true,
@@ -72,17 +73,12 @@ return {
       end,
     },
   },
-  document_highlight = true,
+  document_highlight = false,
   code_lens_refresh = true,
   float = {
     focusable = true,
     style = "minimal",
     border = "rounded",
-  },
-  peek = {
-    max_height = 15,
-    max_width = 30,
-    context = 10,
   },
   on_attach_callback = nil,
   on_init_callback = nil,
@@ -100,12 +96,6 @@ return {
       ["gr"] = { vim.lsp.buf.references, "Goto references" },
       ["gI"] = { vim.lsp.buf.implementation, "Goto Implementation" },
       ["gs"] = { vim.lsp.buf.signature_help, "show signature help" },
-      ["gp"] = {
-        function()
-          require("lvim.lsp.peek").Peek "definition"
-        end,
-        "Peek definition",
-      },
       ["gl"] = {
         function()
           local config = lvim.lsp.diagnostics.float
@@ -143,7 +133,9 @@ return {
     },
   },
   null_ls = {
-    setup = {},
+    setup = {
+      debug = false,
+    },
     config = {},
   },
   ---@deprecated use lvim.lsp.automatic_configuration.skipped_servers instead

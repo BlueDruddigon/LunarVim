@@ -135,39 +135,13 @@ M.config = function()
       keyword_length = 1,
     },
     experimental = {
-      ghost_text = true,
+      ghost_text = false,
       native_menu = false,
     },
     formatting = {
       fields = { "kind", "abbr", "menu" },
       max_width = 0,
-      kind_icons = {
-        Class = " ",
-        Color = " ",
-        Constant = "ﲀ ",
-        Constructor = " ",
-        Enum = "練",
-        EnumMember = " ",
-        Event = " ",
-        Field = " ",
-        File = "",
-        Folder = " ",
-        Function = " ",
-        Interface = "ﰮ ",
-        Keyword = " ",
-        Method = " ",
-        Module = " ",
-        Operator = "",
-        Property = " ",
-        Reference = " ",
-        Snippet = " ",
-        Struct = " ",
-        Text = " ",
-        TypeParameter = " ",
-        Unit = "塞",
-        Value = " ",
-        Variable = " ",
-      },
+      kind_icons = lvim.icons.kind,
       source_names = {
         nvim_lsp = "(LSP)",
         emoji = "(Emoji)",
@@ -189,7 +163,7 @@ M.config = function()
       format = function(entry, vim_item)
         local max_width = lvim.builtin.cmp.formatting.max_width
         if max_width ~= 0 and #vim_item.abbr > max_width then
-          vim_item.abbr = string.sub(vim_item.abbr, 1, max_width - 1) .. "…"
+          vim_item.abbr = string.sub(vim_item.abbr, 1, max_width - 1) .. lvim.icons.ui.Ellipsis
         end
         if lvim.use_icons then
           vim_item.kind = lvim.builtin.cmp.formatting.kind_icons[vim_item.kind]
@@ -247,7 +221,8 @@ M.config = function()
         elseif jumpable(1) then
           luasnip.jump(1)
         elseif has_words_before() then
-          cmp.complete()
+          -- cmp.complete()
+          fallback()
         else
           fallback()
         end

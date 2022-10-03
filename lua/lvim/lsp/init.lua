@@ -74,6 +74,7 @@ function M.common_on_attach(client, bufnr)
   end
   add_lsp_buffer_keybindings(bufnr)
   add_lsp_buffer_options(bufnr)
+  lu.setup_document_symbols(client, bufnr)
 end
 
 function M.get_common_opts()
